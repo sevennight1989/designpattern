@@ -1,10 +1,12 @@
-package af.co.design;
+package af.co.design.factory;
+
+import af.co.design.utils.Log;
 
 /**
  * 工厂模式
  */
 public class FactoryMethod {
-    interface Food {
+    public interface Food {
         void printFood();
     }
 
@@ -29,16 +31,16 @@ public class FactoryMethod {
         }
     }
 
-    static class StaticFactory {
-        static Food getA() {
+    public static class StaticFactory {
+    	public static Food getA() {
             return new A();
         }
 
-        static Food getB() {
+    	public static Food getB() {
             return new B();
         }
 
-        static Food getC() {
+    	public static Food getC() {
             return new C();
         }
     }

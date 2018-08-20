@@ -1,4 +1,6 @@
-package af.co.design;
+package af.co.design.factory;
+
+import af.co.design.utils.Log;
 
 /**
  * 抽象工厂
@@ -8,7 +10,7 @@ package af.co.design;
  */
 public class AbstractFactory {
 	
-	interface Food {
+	public interface Food {
 		void printFood();
 	}
 
