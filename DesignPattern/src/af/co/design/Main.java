@@ -1,16 +1,23 @@
 package af.co.design;
 
-import proxy.Proxy;
-import decorator.Decorator;
-import decorator.Sourceable;
+import java.util.Enumeration;
+
 import af.co.design.adapter.ClassAdapter;
 import af.co.design.adapter.ObjectWapper;
 import af.co.design.adapter.Source;
 import af.co.design.adapter.SourceSub1;
 import af.co.design.adapter.SourceSub2;
+import af.co.design.bridge.Bridge;
+import af.co.design.bridge.MyBridge;
+import af.co.design.compsite.Tree;
+import af.co.design.compsite.TreeNode;
+import af.co.design.decorator.Decorator;
+import af.co.design.decorator.Sourceable;
+import af.co.design.facade.Computer;
 import af.co.design.factory.AbstractFactory;
 import af.co.design.factory.AbstractFactory.Food;
 import af.co.design.factory.FactoryMethod;
+import af.co.design.proxy.Proxy;
 import af.co.design.utils.Log;
 
 public class Main {
@@ -18,7 +25,7 @@ public class Main {
 		FactoryMethod.Food f = get("B");
 		if (f != null) {
 			f.printFood();
-			
+
 		}
 		Log.splitLine();
 		Food food = getA();
@@ -39,7 +46,7 @@ public class Main {
 		} catch (CloneNotSupportedException e) {
 			e.printStackTrace();
 		}
-		//这里修改P2的name不会影响P1的name，如果直接使用P1赋值，或者new对象再使用P1赋值都会修改P1的name
+		// 这里修改P2的name不会影响P1的name，如果直接使用P1赋值，或者new对象再使用P1赋值都会修改P1的name
 		p2.setName("李四");
 		Log.d("P1 Name: " + p1.getName());
 		Log.d("P2 Name: " + p2.getName());
@@ -48,7 +55,7 @@ public class Main {
 		ca.method1();
 		ca.method2();
 		Log.splitLine();
-		
+
 		ObjectWapper ow = new ObjectWapper(new Source());
 		ow.method1();
 		ow.method2();
@@ -60,20 +67,58 @@ public class Main {
 		ssb2.method1();
 		ssb2.method2();
 		Log.splitLine();
-		
-		//代理模式和装饰着模式区别，代理模式在编译时就知道被代理的对象，而装饰者只有在运行阶段才知道被装饰对象，需要在
-		//装饰的类的构造函数中传入被装饰的对象
-		Sourceable source =  new decorator.Source();
+
+		// 代理模式和装饰着模式区别，代理模式在编译时就知道被代理的对象，而装饰者只有在运行阶段才知道被装饰对象，需要在
+		// 装饰的类的构造函数中传入被装饰的对象
+		Sourceable source = new af.co.design.decorator.Source();
 		Sourceable obj = new Decorator(source);
 		obj.method();
-		
+
 		Log.splitLine();
-		
+
 		Sourceable proxy = new Proxy();
 		proxy.method();
 		Log.splitLine();
-		
 
+		Computer computer = new Computer();
+		computer.startUp();
+		computer.shutDown();
+		Log.splitLine();
+
+		Bridge bridge = new MyBridge();
+		Sourceable sourceable1 = new af.co.design.bridge.SourceSub1();
+		bridge.setSource(sourceable1);
+		bridge.method();
+
+		Sourceable sourceable2 = new af.co.design.bridge.SourceSub2();
+		bridge.setSource(sourceable2);
+		bridge.method();
+		Log.splitLine();
+
+		Tree tree = new Tree("A");
+		TreeNode nodeB = new TreeNode("B");
+		TreeNode nodeC = new TreeNode("C");
+		TreeNode nodeD = new TreeNode("D");
+		nodeC.add(nodeD);
+		nodeB.add(nodeC);
+		tree.root.add(nodeB);
+		Log.d("Buid Tree finish!");
+		Log.d(tree.root.getName());
+		Enumeration<TreeNode> children = tree.root.getChildren();
+		printTreeName(children);
+		Log.splitLine();
+
+	}
+
+	//递归遍历子节点
+	public static void printTreeName(Enumeration<TreeNode> children) {
+		while (children.hasMoreElements()) {
+			TreeNode node = children.nextElement();
+			Log.d(node.getName());
+			if (node.getChildren().hasMoreElements()) {
+				printTreeName(node.getChildren());
+			}
+		}
 	}
 
 	private static FactoryMethod.Food get(String name) {

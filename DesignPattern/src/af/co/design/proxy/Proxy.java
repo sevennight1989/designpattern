@@ -1,8 +1,8 @@
-package proxy;
+package af.co.design.proxy;
 
+import af.co.design.decorator.Source;
+import af.co.design.decorator.Sourceable;
 import af.co.design.utils.Log;
-import decorator.Source;
-import decorator.Sourceable;
 /**
  * 代理模式
  * @author ZhangPeng-PC

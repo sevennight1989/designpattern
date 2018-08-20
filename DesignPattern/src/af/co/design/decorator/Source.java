@@ -1,4 +1,4 @@
-package decorator;
+package af.co.design.decorator;
 
 import af.co.design.utils.Log;
 
