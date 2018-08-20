@@ -1,5 +1,8 @@
 package af.co.design;
 
+import proxy.Proxy;
+import decorator.Decorator;
+import decorator.Sourceable;
 import af.co.design.adapter.ClassAdapter;
 import af.co.design.adapter.ObjectWapper;
 import af.co.design.adapter.Source;
@@ -15,6 +18,7 @@ public class Main {
 		FactoryMethod.Food f = get("B");
 		if (f != null) {
 			f.printFood();
+			
 		}
 		Log.splitLine();
 		Food food = getA();
@@ -55,6 +59,19 @@ public class Main {
 		ssb1.method2();
 		ssb2.method1();
 		ssb2.method2();
+		Log.splitLine();
+		
+		//代理模式和装饰着模式区别，代理模式在编译时就知道被代理的对象，而装饰者只有在运行阶段才知道被装饰对象，需要在
+		//装饰的类的构造函数中传入被装饰的对象
+		Sourceable source =  new decorator.Source();
+		Sourceable obj = new Decorator(source);
+		obj.method();
+		
+		Log.splitLine();
+		
+		Sourceable proxy = new Proxy();
+		proxy.method();
+		Log.splitLine();
 		
 
 	}
