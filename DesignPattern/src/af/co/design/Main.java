@@ -11,6 +11,7 @@ import af.co.design.bridge.Bridge;
 import af.co.design.bridge.MyBridge;
 import af.co.design.compsite.Tree;
 import af.co.design.compsite.TreeNode;
+import af.co.design.cor.MyHandler;
 import af.co.design.decorator.Decorator;
 import af.co.design.decorator.Sourceable;
 import af.co.design.facade.Computer;
@@ -18,6 +19,9 @@ import af.co.design.factory.AbstractFactory;
 import af.co.design.factory.AbstractFactory.Food;
 import af.co.design.factory.FactoryMethod;
 import af.co.design.flyweight.FlyweightFactory;
+import af.co.design.iterator.Collection;
+import af.co.design.iterator.Iterator;
+import af.co.design.iterator.MyCollection;
 import af.co.design.observer.MySubject;
 import af.co.design.observer.Observer1;
 import af.co.design.observer.Observer2;
@@ -145,6 +149,19 @@ public class Main {
         sub.operation();
         Log.splitLine();
 
+        Collection collection = new MyCollection();
+        Iterator iterator = collection.iterator();
+        while (iterator.hasNext()) {
+            Log.d(iterator.next().toString());
+        }
+        Log.splitLine();
+
+        MyHandler h1 = new MyHandler("H1");
+        MyHandler h2 = new MyHandler("H2");
+        MyHandler h3 = new MyHandler("H3");
+        h1.setHandler(h2);
+        h2.setHandler(h3);
+        h1.operation();
     }
 
     //递归遍历子节点
