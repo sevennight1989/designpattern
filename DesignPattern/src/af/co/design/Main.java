@@ -18,7 +18,15 @@ import af.co.design.factory.AbstractFactory;
 import af.co.design.factory.AbstractFactory.Food;
 import af.co.design.factory.FactoryMethod;
 import af.co.design.flyweight.FlyweightFactory;
+import af.co.design.observer.MySubject;
+import af.co.design.observer.Observer1;
+import af.co.design.observer.Observer2;
+import af.co.design.observer.Subject;
 import af.co.design.proxy.Proxy;
+import af.co.design.strategy.ICalculator;
+import af.co.design.strategy.Minus;
+import af.co.design.strategy.Multiply;
+import af.co.design.strategy.Plus;
 import af.co.design.utils.Log;
 
 public class Main {
@@ -116,6 +124,25 @@ public class Main {
         String tName = (String) ff.getFlyweight(name).getObj();
         Log.d("tName = " + tName);
 
+        Log.splitLine();
+        String exp_1 = "2+8";
+        String exp_2 = "5-2";
+        String exp_3 = "2*7";
+        ICalculator cal_1 = new Plus();
+        ICalculator cal_2 = new Minus();
+        ICalculator cal_3 = new Multiply();
+        int ret_1 = cal_1.calculate(exp_1);
+        int ret_2 = cal_2.calculate(exp_2);
+        int ret_3 = cal_3.calculate(exp_3);
+        Log.d("ret_1 = " + ret_1);
+        Log.d("ret_2 = " + ret_2);
+        Log.d("ret_3 = " + ret_3);
+
+        Log.splitLine();
+        Subject sub = new MySubject();
+        sub.add(new Observer1());
+        sub.add(new Observer2());
+        sub.operation();
         Log.splitLine();
 
     }
