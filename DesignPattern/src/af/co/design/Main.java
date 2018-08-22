@@ -9,6 +9,10 @@ import af.co.design.adapter.SourceSub1;
 import af.co.design.adapter.SourceSub2;
 import af.co.design.bridge.Bridge;
 import af.co.design.bridge.MyBridge;
+import af.co.design.command.Command;
+import af.co.design.command.Invoker;
+import af.co.design.command.MyCommand;
+import af.co.design.command.Receiver;
 import af.co.design.compsite.Tree;
 import af.co.design.compsite.TreeNode;
 import af.co.design.cor.MyHandler;
@@ -22,6 +26,8 @@ import af.co.design.flyweight.FlyweightFactory;
 import af.co.design.iterator.Collection;
 import af.co.design.iterator.Iterator;
 import af.co.design.iterator.MyCollection;
+import af.co.design.memento.Original;
+import af.co.design.memento.Storage;
 import af.co.design.observer.MySubject;
 import af.co.design.observer.Observer1;
 import af.co.design.observer.Observer2;
@@ -162,6 +168,26 @@ public class Main {
         h1.setHandler(h2);
         h2.setHandler(h3);
         h1.operation();
+        Log.splitLine();
+
+        Receiver receiver = new Receiver();
+        Command command = new MyCommand(receiver);
+        Invoker invoker = new Invoker(command);
+        invoker.action();
+        Log.splitLine();
+        // 创建原始类
+        Original original = new Original("egg");
+        // 创建备忘录
+        Storage storage = new Storage(original.createMemento());
+        // 修改原始类的状态
+        Log.d("初始化状态为: " + original.getValue());
+        original.setValue("niu");
+        Log.d("修改后的状态为: " + original.getValue());
+        // 回复原始类的状态
+        original.restoreMemento(storage.getMemento());
+        Log.d("恢复后的状态为: " + original.getValue());
+        Log.splitLine();
+
     }
 
     //递归遍历子节点
