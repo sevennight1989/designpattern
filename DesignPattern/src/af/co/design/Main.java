@@ -26,6 +26,8 @@ import af.co.design.flyweight.FlyweightFactory;
 import af.co.design.iterator.Collection;
 import af.co.design.iterator.Iterator;
 import af.co.design.iterator.MyCollection;
+import af.co.design.mediator.Mediator;
+import af.co.design.mediator.MyMediator;
 import af.co.design.memento.Original;
 import af.co.design.memento.Storage;
 import af.co.design.observer.MySubject;
@@ -33,11 +35,14 @@ import af.co.design.observer.Observer1;
 import af.co.design.observer.Observer2;
 import af.co.design.observer.Subject;
 import af.co.design.proxy.Proxy;
+import af.co.design.state.Context;
+import af.co.design.state.State;
 import af.co.design.strategy.ICalculator;
 import af.co.design.strategy.Minus;
 import af.co.design.strategy.Multiply;
 import af.co.design.strategy.Plus;
 import af.co.design.utils.Log;
+import af.co.design.visitor.VisitorDemo;
 
 public class Main {
     public static void main(String[] args) {
@@ -187,6 +192,37 @@ public class Main {
         original.restoreMemento(storage.getMemento());
         Log.d("恢复后的状态为: " + original.getValue());
         Log.splitLine();
+
+        State state = new State();
+        Context context = new Context(state);
+        state.setValue("state1");
+        context.method();
+        state.setValue("state2");
+        context.method();
+        state.setValue("state");
+        context.method();
+        Log.splitLine();
+
+        VisitorDemo.Service saving = new VisitorDemo.Saving();
+        VisitorDemo.Service fund = new VisitorDemo.Fund();
+        VisitorDemo.Service draw = new VisitorDemo.Draw();
+        VisitorDemo.Visitor visitor = new VisitorDemo.Visitor();
+        VisitorDemo.Visitor guweiwei= new VisitorDemo.Visitor();
+        fund.accept(guweiwei);
+        saving.accept(visitor);
+        fund.accept(visitor);
+        draw.accept(visitor);
+        Log.splitLine();
+
+        Mediator mediator = new MyMediator();
+        mediator.createMediator();
+        mediator.workAll();
+        Log.splitLine();
+
+        int ret = new af.co.design.interpreter.Minus().interpret(new af.co.design.interpreter.Context(
+                new af.co.design.interpreter.Plus().interpret(new af.co.design.interpreter.Context(9,2)),8
+        ));
+        Log.d("ret = " + ret);
 
     }
 
